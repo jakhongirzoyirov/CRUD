@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Add</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-2">
+            <form action="">
+                ADMIN<input type="radio" name="1" onchange="getPermission('ADMIN')"/>
+                SUPER_ADMIN<input type="radio" name="1" onchange="getPermission('SUPER_ADMIN')"/>
+                USER<input type="radio" name="1" onchange="getPermission('USER')"/>
+            </form>
+            <ul id="permission">
+
+            </ul>
+            <input type="text" name="username">
+            <input type="text" name="password">
+            <input type="text" name="name">
+        </div>
+    </div>
+</div>
+
+<script>
+    function getPermission(role) {
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = 'json';
+        xhr.open('GET', "/admin/user/permission/list/" + role, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.response != null) {
+                let helper = Array.from(xhr.response).map((permission) => {
+                    return "<li>" + permission + "</li>"
+                });
+
+                document.getElementById("permission").innerHTML = helper;
+            }
+        }
+        xhr.send();
+    }
+</script>
+
+</body>
+</html>
